@@ -104,4 +104,8 @@ public class ChatService {
     public Flux<ChatRoomGuest> getChatRoomGuestByChatRoomId(long chatRoomId) {
         return chatRoomGuestRepository.findByChatRoomId(chatRoomId);
     }
+    // 유저별 채팅방 조회
+    public Flux<ChatRoomGuest> getChatRoomGuestByChatRoomId(String nickName) {
+        return chatRoomGuestRepository.findByNickName(nickName);
+    }
 }

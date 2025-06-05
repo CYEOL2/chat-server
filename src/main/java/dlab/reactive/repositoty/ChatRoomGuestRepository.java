@@ -9,11 +9,13 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface ChatRoomGuestRepository extends ReactiveCrudRepository<ChatRoomGuest, Long> {
 
-    Mono<Boolean> existsByChatRoomIdAndNickName(long chatRoomId, String NickName);
+    Mono<Boolean> existsByChatRoomIdAndNickName(long chatRoomId, String nickname);
 
-    Mono<Void> deleteByChatRoomIdAndNickName(long chatRoomId, String NickName);
+    Mono<Void> deleteByChatRoomIdAndNickName(long chatRoomId, String nickname);
 
     Mono<Void> deleteByChatRoomId(long chatRoomId);
 
     Flux<ChatRoomGuest> findByChatRoomId(long chatRoomId);
+
+    Flux<ChatRoomGuest> findByNickName(String nickname);
 }

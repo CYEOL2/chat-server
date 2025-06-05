@@ -1,6 +1,8 @@
-package dlab.reactive.route;
+package dlab.reactive.config;
 
 import dlab.reactive.handler.ChatHandler;
+import dlab.reactive.handler.ClientIdHandler;
+import dlab.reactive.handler.SSEHandler;
 import dlab.reactive.handler.WebClientHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.*;
 
 @Configuration
-public class ChatRouter {
+public class RouterConfig {
 
     @Bean
     public RouterFunction<ServerResponse> chatRoutes(ChatHandler chatHandler){
@@ -30,6 +32,18 @@ public class ChatRouter {
         return RouterFunctions.route(RequestPredicates.POST("/api/{org}")
                         .and(RequestPredicates.contentType(MediaType.APPLICATION_JSON))
                         .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  webClientHandler::handle)
+                ;
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> assignRoutes(ClientIdHandler clientIdHandler){
+        return RouterFunctions.route(RequestPredicates.POST("/assignClientId").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  clientIdHandler::assignClientId)
+                ;
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> sseRoutes(SSEHandler sseHandler){
+        return RouterFunctions.route(RequestPredicates.GET("/sse").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  sseHandler::stream)
                 ;
     }
 }

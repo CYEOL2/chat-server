@@ -27,18 +27,14 @@ dependencies {
 	// R2DBC 의존성. 비동기 방식의 데이터베이스 연동을 제공
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 
-	// Spring Web
+	// Spring Web 포함시키면 Tomcat (Servlet 기반)으로 websocket이 동작한다. netty위에서 동작해야함
 	//implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	// Spring WebFlux의 핵심 의존성, 리액티브 웹 애플리케이션 개발을 위한 기본 기능을 제공
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// Spring WebSocket을 사용한 비동기 웹 소켓 통신을 위한 의존성
-
-	// 주석이유 : spring-boot-starter-webflux에 WebSocket이 내장되어 있음.
-	//          포함시키면 Tomcat (Servlet 기반)으로 websocket이 동작한다. netty위에서 동작해야함
-
-	//implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	//implementation 'org.springframework.boot:spring-boot-starter-websocket' // 주석이유 : spring-boot-starter-webflux에 WebSocket이 내장되어 있음.
 
 	// PostgreSQL JDBC 드라이버, R2DBC의 runtime 의존성
 	runtimeOnly 'org.postgresql:postgresql'
