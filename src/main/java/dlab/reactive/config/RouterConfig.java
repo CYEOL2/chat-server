@@ -42,8 +42,8 @@ public class RouterConfig {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> sseRoutes(SSEHandler sseHandler){
-        return RouterFunctions.route(RequestPredicates.GET("/sse/{nickName}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  sseHandler::stream)
+    public RouterFunction<ServerResponse> sseRoutes(SSEHandler sseHandler) {
+        return RouterFunctions.route(RequestPredicates.GET("/sse/{nickName}").and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)),sseHandler::stream)
                 ;
     }
 }
