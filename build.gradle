@@ -1,0 +1,66 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.8'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'dlab.reactive'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(8)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// R2DBC 의존성. 비동기 방식의 데이터베이스 연동을 제공
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+
+	// Spring Web
+	//implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Spring WebFlux의 핵심 의존성, 리액티브 웹 애플리케이션 개발을 위한 기본 기능을 제공
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Spring WebSocket을 사용한 비동기 웹 소켓 통신을 위한 의존성
+
+	// 주석이유 : spring-boot-starter-webflux에 WebSocket이 내장되어 있음.
+	//          포함시키면 Tomcat (Servlet 기반)으로 websocket이 동작한다. netty위에서 동작해야함
+
+	//implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	// PostgreSQL JDBC 드라이버, R2DBC의 runtime 의존성
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// R2DBC PostgreSQL 드라이버, PostgreSQL 데이터베이스와 비동기 연결을 위한 드라이버
+	runtimeOnly 'org.postgresql:r2dbc-postgresql'
+
+	// Reactor 라이브러리의 테스트 기능, 리액티브 프로그래밍을 테스트하기 위한 유틸리티 제공
+	testImplementation 'io.projectreactor:reactor-test'
+
+	// Swagger UI와 OpenAPI 문서화를 위한 라이브러리. Spring WebFlux와 통합하여 API 문서화 가능
+	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.15'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

@@ -1,0 +1,42 @@
+<configuration>
+    <!-- 콘솔 출력 Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일 출력 Appender (일별 롤링) -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/chat-app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 일별 롤링: logs/chat-app.2025-04-24.log -->
+            <fileNamePattern>logs/chat-app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 30일치 로그 보관 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 비동기 로깅 Appender -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE"/>
+        <queueSize>100</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
+
+    <!-- 패키지별 로그 레벨 설정 -->
+    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="io.r2dbc" level="DEBUG"/>
+    <logger name="dlab.reactive" level="DEBUG"/> <!-- 프로젝트 패키지 -->
+    <logger name="org.springframework.web.reactive" level="TRACE"/> <!-- WebSocket 디버깅 -->
+    <logger name="reactor.netty.http.client" level="info"/> <!-- httpClient -->
+
+    <!-- 루트 로거 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC"/>
+    </root>
+</configuration>
