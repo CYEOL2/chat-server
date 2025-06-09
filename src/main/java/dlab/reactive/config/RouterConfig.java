@@ -36,14 +36,14 @@ public class RouterConfig {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> assignRoutes(ClientIdHandler clientIdHandler){
-        return RouterFunctions.route(RequestPredicates.POST("/assignClientId").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  clientIdHandler::assignClientId)
+    public RouterFunction<ServerResponse> sseRoutes(SSEHandler sseHandler) {
+        return RouterFunctions.route(RequestPredicates.GET("/sse/{nickName}").and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)),sseHandler::stream)
                 ;
     }
 
     @Bean
-    public RouterFunction<ServerResponse> sseRoutes(SSEHandler sseHandler) {
-        return RouterFunctions.route(RequestPredicates.GET("/sse/{nickName}").and(RequestPredicates.accept(MediaType.TEXT_EVENT_STREAM)),sseHandler::stream)
+    public RouterFunction<ServerResponse> assignRoutes(ClientIdHandler clientIdHandler){
+        return RouterFunctions.route(RequestPredicates.POST("/assignClientId").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  clientIdHandler::assignClientId)
                 ;
     }
 }

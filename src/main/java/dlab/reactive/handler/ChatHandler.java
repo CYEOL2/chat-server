@@ -1,5 +1,6 @@
 package dlab.reactive.handler;
 
+import dlab.reactive.manage.NotificationSinkManager;
 import dlab.reactive.model.ChatRoom;
 import dlab.reactive.service.ChatService;
 import dlab.reactive.session.WebSocketSessionManager;
@@ -16,9 +17,11 @@ public class ChatHandler {
 
     private final ChatService service;
     private final WebSocketSessionManager sessionManager;
-    public ChatHandler(ChatService service, WebSocketSessionManager sessionManager) {
+    private final NotificationSinkManager notificationSinkManager;
+    public ChatHandler(ChatService service, WebSocketSessionManager sessionManager, NotificationSinkManager notificationSinkManager) {
         this.service = service;
         this.sessionManager = sessionManager;
+        this.notificationSinkManager = notificationSinkManager;
     }
 
     public Mono<ServerResponse> createChatRoom(ServerRequest request) {
@@ -48,7 +51,8 @@ public class ChatHandler {
         // then 사용이유 Mono<Void>를 리턴하기 때문에.
         return service.deleteChatRoomById(chatRoomId)
                 .then(service.deleteChatRoomGuestByChatRoomId(chatRoomId)
-                        .then(service.deleteChatMessageByChatRoomId(chatRoomId)))
+                        .then(service.deleteChatMessageByChatRoomId(chatRoomId))
+                        .then(notificationSinkManager.removeSinks(String.valueOf(chatRoomId))))
                 .then(ServerResponse.ok().build());
     }
 

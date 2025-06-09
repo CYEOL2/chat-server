@@ -2,7 +2,9 @@ package dlab.reactive.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dlab.reactive.manage.NotificationSinkManager;
 import dlab.reactive.model.ChatMessage;
+import dlab.reactive.model.Notification;
 import dlab.reactive.service.ChatService;
 import dlab.reactive.session.WebSocketSessionManager;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +25,12 @@ public class ChatWebSocketHandler implements WebSocketHandler {
     private final WebSocketSessionManager sessionManager;
     private final ChatService chatService;
     private final ObjectMapper objectMapper;
-    public ChatWebSocketHandler(WebSocketSessionManager sessionManager, ChatService chatService, ObjectMapper objectMapper){
+    private final NotificationSinkManager sinkManager;
+    public ChatWebSocketHandler(WebSocketSessionManager sessionManager, ChatService chatService, ObjectMapper objectMapper, NotificationSinkManager sinkManager){
         this.sessionManager = sessionManager;
         this.chatService = chatService;
         this.objectMapper = objectMapper;
+        this.sinkManager = sinkManager;
     }
 
     @Override
@@ -86,8 +90,20 @@ public class ChatWebSocketHandler implements WebSocketHandler {
                                                     } else {
                                                         return Mono.empty();
                                                     }
+                                                })
+                                                .thenMany(chatService.getChatRoomGuestByChatRoomId(Long.parseLong(chatRoomId)))
+                                                .flatMap(chatRoomGuest -> {
+                                                    if(!nickName.equals(chatRoomGuest.getNickName()) && !sessionManager.getSessions(chatRoomId).containsKey(chatRoomGuest.getNickName())){
+                                                        Notification notification = Notification.builder()
+                                                                .roomId(chatRoomId)
+                                                                .title("새 메시지")
+                                                                .message(nickName + "님이 메시지를 보냈습니다.")
+                                                                .createDtime(LocalDateTime.now())
+                                                                .build();
+                                                        sinkManager.getSinks(chatRoomGuest.getNickName()).tryEmitNext(notification);
+                                                    }
+                                                    return Mono.empty();
                                                 });
-
                                     })
                             ).then();
                 });
