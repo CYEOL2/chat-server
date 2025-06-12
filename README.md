@@ -59,12 +59,12 @@ Spring WebFlux는 Spring Framework 5.0 이상에서 도입된 **비동기 · 논
 
 ### 4-1 주요 기능 흐름
 
-| 기능 구분 | 구성 요소                                                                                                       | 설명                        |
-|----------|-------------------------------------------------------------------------------------------------------------|---------------------------|
-| **채팅 CRUD** | `ChatHandler` → `ChatService` → `ReactiveCrudRepository` <br> `WebSocketHandler` → `ChatService` → `ReactiveCrudRepository`                                              | 채팅 테이블 관련 기본적인 CRUD <br> 실시간 메세지 처리중 테이블 CRUD |
-| **실시간 메시지** | `WebSocketHandler` 에서 처리                                                                                    | WebSocket으로 실시간 메시지 전송    |
-| **실시간 알림** | `SSEHandler` 호출하여 이벤트 스트림 연결 <br> 이 후 `WebSocketHandler`에서 이벤트 발생 시 `NotificationServerice` -> `SSEHandler` | SSE 기반 알림 전송 처리           |
-| **외부 API 호출** | `WebClientHandler` → `WebClientService` -> `External System`                                                | 외부 시스템 연동 비동기 호출          |
+| 기능 구분       | 내용                                                                                                                          | 설명                        |
+|----------------|-----------------------------------------------------------------------------------------------------------------------------|---------------------------|
+| **채팅 CRUD**    | `ChatHandler` → `ChatService` → `ReactiveCrudRepository` <br> `WebSocketHandler` → `ChatService` → `ReactiveCrudRepository` | 채팅 테이블 관련 기본적인 CRUD <br> 실시간 메세지 처리중 테이블 CRUD |
+| **실시간 메시지** | `WebSocketHandler` 에서 처리                                                                                                    | WebSocket으로 실시간 메시지 전송    |
+| **실시간 알림**  | `SSEHandler` 호출하여 이벤트 스트림 연결 <br> 이 후 `WebSocketHandler`에서 이벤트 발생 시 `NotificationServerice` -> `SSEHandler`      | SSE 기반 알림 전송 처리           |
+| **외부 API 호출**  | `WebClientHandler` → `WebClientService` -> `External System`                                                                | 외부 시스템 연동 비동기 호출          |
 
 
 ### API 문서 (Swagger)
