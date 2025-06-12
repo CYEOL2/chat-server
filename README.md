@@ -63,9 +63,9 @@ Project Reactor 기반으로 동작하며, Reactive Streams 표준을 따릅니�
 |----------|---------------------------------------------------------------|------------------------|
 | **채팅 CRUD** | `ChatHandler` → `ChatService` → `ReactiveCrudRepository`      | 채팅 테이블 관련 기본적인 CRUD    |
 | **채팅 CRUD** | `WebSocketHandler` → `ChatService` → `ReactiveCrudRepository` | 실시간 메세지 처리중 테이블 CRUD   |
-| **실시간 메시지** | `WebSocketHandler` → `ChatService`                            | WebSocket으로 실시간 메시지 전송 |
-| **실시간 알림** | `SSEHandler` 연결 → `NotificationService` → `SSEHandler`        | SSE 기반 알림 전송 처리        |
-| **외부 API 호출** | `WebClientHandler` → `WebClientService` -> `External System`    | 외부 시스템 연동 비동기 호출       |
+| **실시간 메시지** | `WebSocketHandler` 에서 처리                                      | WebSocket으로 실시간 메시지 전송 |
+| **실시간 알림** | `SSEHandler` 호출하여 이벤트 스트림 연결 <br> 이 후 `WebSocketHandler`에서 이벤트 발생 시 `NotificationServerice` -> `SSEHandler`                            | SSE 기반 알림 전송 처리        |
+| **외부 API 호출** | `WebClientHandler` → `WebClientService` -> `External System`  | 외부 시스템 연동 비동기 호출       |
 
 ---
 
