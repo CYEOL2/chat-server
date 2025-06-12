@@ -27,7 +27,7 @@
 ## WebFlux란?
 
 Spring WebFlux는 Spring Framework 5.0 이상에서 도입된 **비동기 · 논블로킹 웹 프레임워크**입니다.  
-Project Reactor 기반으로 동작하며, Reactive Streams 표준을 따릅니다.
+**Project Reactor** 기반으로 동작하며, Reactive Streams 표준을 따릅니다.
 
 ### 주요 특징
 
@@ -40,7 +40,7 @@ Project Reactor 기반으로 동작하며, Reactive Streams 표준을 따릅니�
 
 ---
 
-## Project Reactor란?
+## Project Reactor
 
 ### 주요 특징
 
