@@ -45,14 +45,16 @@ public class WebClientService {
                     .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
                             .flatMap(error -> Mono.error(new RuntimeException("HTTP Error: " + error))))
                     .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                    .log();
+                    ;
+                    //.log();
         } else {
             return request
                     .retrieve()
                     .onStatus(HttpStatus::isError, response -> response.bodyToMono(String.class)
                             .flatMap(error -> Mono.error(new RuntimeException("HTTP Error: " + error))))
                     .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                    .log();
+                    ;
+                    //.log();
 
         }
 

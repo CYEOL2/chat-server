@@ -23,7 +23,8 @@ public class ChatHandler {
         this.sessionManager = sessionManager;
         this.notificationSinkManager = notificationSinkManager;
     }
-
+    
+    // 채팅방 생성
     public Mono<ServerResponse> createChatRoom(ServerRequest request) {
         return request.bodyToMono(ChatRoom.class)
                 .flatMap(chatRoom -> service.createChatRoom(chatRoom)
@@ -32,12 +33,14 @@ public class ChatHandler {
 
     }
 
+    // 전체 채팅방 조회
     public Mono<ServerResponse> getAllChatRooms(ServerRequest request) {
         return service.getAllChatRooms()
                 .collectList()
                 .flatMap(chatRooms -> ServerResponse.ok().bodyValue(chatRooms));
     }
 
+    // 채팅방 조회 (chatRoomId)
     public Mono<ServerResponse> getChatRoomById(ServerRequest request) {
         long chatRoomId = Long.parseLong(request.pathVariable("id"));
         return service.getChatRoomById(chatRoomId)
@@ -66,6 +69,7 @@ public class ChatHandler {
                 .then(ServerResponse.ok().build());
     }
 
+    // 채팅 메세지 조회 (chatRoomId)
     public Mono<ServerResponse> getChatMessageByChatRoomId(ServerRequest request) {
         long chatRoomId = Long.parseLong(request.pathVariable("chatRoomId"));
         long limit = request.queryParam("limit").map(Long::parseLong).orElse(100L);
@@ -76,6 +80,7 @@ public class ChatHandler {
                 .flatMap(chatMessages -> ServerResponse.ok().bodyValue(chatMessages));
     }
 
+    // 채팅 게스트 조회 (chatRoomId)
     public Mono<ServerResponse> getChatRoomGuestByChatRoomId(ServerRequest request) {
         long chatRoomId = Long.parseLong(request.pathVariable("chatRoomId"));
         return service.getChatRoomGuestByChatRoomId(chatRoomId)

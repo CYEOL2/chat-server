@@ -26,6 +26,7 @@ springdoc:
 api:
   base-url:
     urls:
-      dims-dev: http://fbc.digitalab.co.kr:18080/dims-dev-service
+      dims-dev: http://192.168.0.28:48080
+#      dims-dev: http://fbc.digitalab.co.kr:18080/dims-dev-service
       dims-prod: http://fbc.digitalab.co.kr:18080/dims-service
 

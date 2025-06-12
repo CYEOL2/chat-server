@@ -1,7 +1,10 @@
 package dlab.reactive.factory;
 
 import dlab.reactive.property.ApiBaseUrlProperties;
+import io.netty.channel.ChannelOption;
 import io.netty.handler.logging.LogLevel;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -10,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,7 +35,7 @@ public class WebClientFactory {
             }
             // clientConnector 추가 이유 : 기본동작도 ReactorClientHttpConnector로 하지만 httpClient를 추가하기위함.
             return WebClient.builder()
-                    .clientConnector(new ReactorClientHttpConnector(HttpClient.create().wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL)))
+                    //.clientConnector(new ReactorClientHttpConnector(HttpClient.create()))
                     .baseUrl(baseUrl)
                     .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .build();

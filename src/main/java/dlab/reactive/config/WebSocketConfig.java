@@ -1,15 +1,13 @@
 package dlab.reactive.config;
 
-import dlab.reactive.handler.ChatWebSocketHandler;
+import dlab.reactive.handler.WebSocketHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.server.WebSocketService;
 import org.springframework.web.reactive.socket.server.support.HandshakeWebSocketService;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
 import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyRequestUpgradeStrategy;
-import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +32,8 @@ public class WebSocketConfig {
     //WebSocketHandlerMapping - Spring MVC (Servlet 기반)
     //SimpleUrlHandlerMapping - Spring WebFlux (Reactive 기반)
     @Bean
-    public SimpleUrlHandlerMapping websocketMapping(ChatWebSocketHandler chatWebSocketHandler){
-        Map<String, WebSocketHandler> map = new HashMap<>();
+    public SimpleUrlHandlerMapping websocketMapping(WebSocketHandler chatWebSocketHandler){
+        Map<String, org.springframework.web.reactive.socket.WebSocketHandler> map = new HashMap<>();
         map.put("/ws/chat", chatWebSocketHandler); // URI에 따라 핸들러 매핑
 
 

@@ -7,10 +7,8 @@ import dlab.reactive.model.ChatMessage;
 import dlab.reactive.model.Notification;
 import dlab.reactive.service.ChatService;
 import dlab.reactive.session.WebSocketSessionManager;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.CloseStatus;
-import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.WebSocketSession;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,13 +18,13 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 
 @Component
-public class ChatWebSocketHandler implements WebSocketHandler {
+public class WebSocketHandler implements org.springframework.web.reactive.socket.WebSocketHandler {
 
     private final WebSocketSessionManager sessionManager;
     private final ChatService chatService;
     private final ObjectMapper objectMapper;
     private final NotificationSinkManager sinkManager;
-    public ChatWebSocketHandler(WebSocketSessionManager sessionManager, ChatService chatService, ObjectMapper objectMapper, NotificationSinkManager sinkManager){
+    public WebSocketHandler(WebSocketSessionManager sessionManager, ChatService chatService, ObjectMapper objectMapper, NotificationSinkManager sinkManager){
         this.sessionManager = sessionManager;
         this.chatService = chatService;
         this.objectMapper = objectMapper;

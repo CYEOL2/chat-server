@@ -28,9 +28,9 @@
     </appender>
 
     <!-- 패키지별 로그 레벨 설정 -->
-    <logger name="org.springframework" level="DEBUG"/>
-    <logger name="io.r2dbc" level="DEBUG"/>
-    <logger name="dlab.reactive" level="DEBUG"/> <!-- 프로젝트 패키지 -->
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="io.r2dbc" level="INFO"/>
+    <logger name="dlab.reactive" level="INFO"/> <!-- 프로젝트 패키지 -->
     <logger name="org.springframework.web.reactive" level="TRACE"/> <!-- WebSocket 디버깅 -->
     <logger name="reactor.netty.http.client" level="info"/> <!-- httpClient -->
 
