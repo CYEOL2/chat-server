@@ -44,7 +44,7 @@ Spring WebFlux는 Spring Framework 5.0 이상에서 도입된 **비동기 · 논
 
 ### 주요 특징
 
-- **Reactive Streams 표준 준수**: `Publisher`, `Subscriber`, `Subscription`
+- **Reactive Streams 표준 준수**: `Publisher`, `Subscriber`, `Subscription` 등의 표준을 따름.
 - **핵심 타입**:
     - `Mono`: 0 또는 1개의 데이터
     - `Flux`: 0개 이상 다수의 데이터
