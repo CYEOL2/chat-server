@@ -66,6 +66,14 @@ Spring WebFlux는 Spring Framework 5.0 이상에서 도입된 **비동기 · 논
 | **실시간 알림** | `SSEHandler` 호출하여 이벤트 스트림 연결 <br> 이 후 `WebSocketHandler`에서 이벤트 발생 시 `NotificationServerice` -> `SSEHandler` | SSE 기반 알림 전송 처리           |
 | **외부 API 호출** | `WebClientHandler` → `WebClientService` -> `External System`                                                | 외부 시스템 연동 비동기 호출          |
 
+
+### API 문서 (Swagger)
+
+프로젝트의 REST API 명세는 Swagger UI를 통해 확인할 수 있습니다.
+
+- **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- **OpenAPI JSON**: [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
+
 ---
 
 ## 5. 데이터베이스 설계 및 구축

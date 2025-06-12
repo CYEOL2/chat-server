@@ -47,6 +47,7 @@ dependencies {
 
 	// Swagger UI와 OpenAPI 문서화를 위한 라이브러리. Spring WebFlux와 통합하여 API 문서화 가능
 	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.15'
+	implementation 'org.springdoc:springdoc-openapi-webflux-core:1.6.15'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
