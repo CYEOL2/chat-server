@@ -26,7 +26,8 @@ Spring WebFlux를 활용한 실시간 채팅 애플리케이션으로, 비동기
 
 ## 시스템 아키텍처
 
-![시스템 구성도](./images/system_flow.png)
+![WebFlux Architecture](./images/webflux-architecture.svg)
+![Chat-Server Architecture](./images/system_flow.svg)
 
 ### 핵심 컴포넌트 흐름
 

@@ -1,0 +1,170 @@
+<svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1000" height="800" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="500" y="30" text-anchor="middle" font-size="24" font-weight="bold" fill="#333">Spring WebFlux Architecture</text>
+  
+  <!-- Client Section -->
+  <g id="clients">
+    <text x="50" y="100" font-size="16" font-weight="bold" fill="#555">Clients</text>
+    
+    <!-- Client 1 -->
+    <rect x="30" y="120" width="100" height="60" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="5"/>
+    <text x="80" y="155" text-anchor="middle" font-size="14" fill="#333">Client 1</text>
+    
+    <!-- Client 2 -->
+    <rect x="30" y="200" width="100" height="60" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="5"/>
+    <text x="80" y="235" text-anchor="middle" font-size="14" fill="#333">Client 2</text>
+    
+    <!-- Client 3 -->
+    <rect x="30" y="280" width="100" height="60" fill="#e3f2fd" stroke="#1976d2" stroke-width="2" rx="5"/>
+    <text x="80" y="315" text-anchor="middle" font-size="14" fill="#333">Client 3</text>
+  </g>
+  
+  <!-- Netty Server -->
+  <g id="netty-server">
+    <rect x="200" y="80" width="200" height="300" fill="#fff3e0" stroke="#f57c00" stroke-width="2" rx="10"/>
+    <text x="300" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">Netty Server</text>
+    
+    <!-- Event Loop Group -->
+    <rect x="220" y="130" width="160" height="230" fill="#fff8e1" stroke="#ffa726" stroke-width="1" rx="5"/>
+    <text x="300" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#555">Event Loop Group</text>
+    
+    <!-- Event Loop Threads -->
+    <circle cx="260" cy="190" r="25" fill="#ffeb3b" stroke="#f9a825" stroke-width="2"/>
+    <text x="260" y="195" text-anchor="middle" font-size="12" fill="#333">EL 1</text>
+    
+    <circle cx="340" cy="190" r="25" fill="#ffeb3b" stroke="#f9a825" stroke-width="2"/>
+    <text x="340" y="195" text-anchor="middle" font-size="12" fill="#333">EL 2</text>
+    
+    <circle cx="260" cy="260" r="25" fill="#ffeb3b" stroke="#f9a825" stroke-width="2"/>
+    <text x="260" y="265" text-anchor="middle" font-size="12" fill="#333">EL 3</text>
+    
+    <circle cx="340" cy="260" r="25" fill="#ffeb3b" stroke="#f9a825" stroke-width="2"/>
+    <text x="340" y="265" text-anchor="middle" font-size="12" fill="#333">EL 4</text>
+    
+    <text x="300" y="320" text-anchor="middle" font-size="12" font-style="italic" fill="#666">
+      (CPU cores × 2)
+    </text>
+  </g>
+  
+  <!-- WebFlux Layer -->
+  <g id="webflux-layer">
+    <rect x="450" y="80" width="300" height="300" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="10"/>
+    <text x="600" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">Spring WebFlux</text>
+    
+    <!-- Router Functions -->
+    <rect x="470" y="130" width="120" height="50" fill="#e1bee7" stroke="#8e24aa" stroke-width="1" rx="5"/>
+    <text x="530" y="160" text-anchor="middle" font-size="13" fill="#333">Router Functions</text>
+    
+    <!-- Handler -->
+    <rect x="610" y="130" width="120" height="50" fill="#e1bee7" stroke="#8e24aa" stroke-width="1" rx="5"/>
+    <text x="670" y="160" text-anchor="middle" font-size="13" fill="#333">Handler</text>
+    
+    <!-- Reactive Streams -->
+    <rect x="470" y="200" width="260" height="60" fill="#ce93d8" stroke="#8e24aa" stroke-width="1" rx="5"/>
+    <text x="600" y="220" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Reactive Streams</text>
+    <text x="600" y="240" text-anchor="middle" font-size="12" fill="#333">Mono&lt;T&gt; / Flux&lt;T&gt;</text>
+    
+    <!-- Service Layer -->
+    <rect x="470" y="280" width="260" height="50" fill="#e1bee7" stroke="#8e24aa" stroke-width="1" rx="5"/>
+    <text x="600" y="310" text-anchor="middle" font-size="13" fill="#333">Service Layer (Non-blocking)</text>
+  </g>
+  
+  <!-- Data Access Layer -->
+  <g id="data-layer">
+    <rect x="450" y="420" width="300" height="120" fill="#e8f5e9" stroke="#388e3c" stroke-width="2" rx="10"/>
+    <text x="600" y="445" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">Data Access Layer</text>
+    
+    <!-- R2DBC -->
+    <rect x="470" y="470" width="120" height="50" fill="#c8e6c9" stroke="#43a047" stroke-width="1" rx="5"/>
+    <text x="530" y="500" text-anchor="middle" font-size="13" fill="#333">R2DBC</text>
+    
+    <!-- WebClient -->
+    <rect x="610" y="470" width="120" height="50" fill="#c8e6c9" stroke="#43a047" stroke-width="1" rx="5"/>
+    <text x="670" y="500" text-anchor="middle" font-size="13" fill="#333">WebClient</text>
+  </g>
+  
+  <!-- Thread Pool for Blocking Operations -->
+  <g id="thread-pool">
+    <rect x="800" y="200" width="170" height="180" fill="#ffebee" stroke="#d32f2f" stroke-width="2" rx="10"/>
+    <text x="885" y="225" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Thread Pool</text>
+    <text x="885" y="245" text-anchor="middle" font-size="12" fill="#666">(Blocking Operations)</text>
+    
+    <!-- Threads -->
+    <rect x="820" y="260" width="60" height="30" fill="#ffcdd2" stroke="#e53935" stroke-width="1" rx="3"/>
+    <text x="850" y="280" text-anchor="middle" font-size="12" fill="#333">Thread 1</text>
+    
+    <rect x="890" y="260" width="60" height="30" fill="#ffcdd2" stroke="#e53935" stroke-width="1" rx="3"/>
+    <text x="920" y="280" text-anchor="middle" font-size="12" fill="#333">Thread 2</text>
+    
+    <rect x="820" y="300" width="60" height="30" fill="#ffcdd2" stroke="#e53935" stroke-width="1" rx="3"/>
+    <text x="850" y="320" text-anchor="middle" font-size="12" fill="#333">Thread 3</text>
+    
+    <rect x="890" y="300" width="60" height="30" fill="#ffcdd2" stroke="#e53935" stroke-width="1" rx="3"/>
+    <text x="920" y="320" text-anchor="middle" font-size="12" fill="#333">Thread n</text>
+    
+    <text x="885" y="355" text-anchor="middle" font-size="11" font-style="italic" fill="#666">
+      Schedulers.boundedElastic()
+    </text>
+  </g>
+  
+  <!-- Databases/External Services -->
+  <g id="external">
+    <rect x="470" y="580" width="120" height="50" fill="#e0f2f1" stroke="#00796b" stroke-width="2" rx="5"/>
+    <text x="530" y="610" text-anchor="middle" font-size="14" fill="#333">PostgreSQL</text>
+    
+    <rect x="610" y="580" width="120" height="50" fill="#e0f2f1" stroke="#00796b" stroke-width="2" rx="5"/>
+    <text x="670" y="610" text-anchor="middle" font-size="14" fill="#333">External API</text>
+  </g>
+  
+  <!-- Arrows and Flow -->
+  <!-- Client to Netty -->
+  <path d="M 130 150 L 200 150" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 130 230 L 200 230" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 130 310 L 200 310" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Netty to WebFlux -->
+  <path d="M 400 230 L 450 230" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- WebFlux to Data Layer -->
+  <path d="M 600 380 L 600 420" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Data Layer to External -->
+  <path d="M 530 540 L 530 580" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M 670 540 L 670 580" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- WebFlux to Thread Pool (for blocking) -->
+  <path d="M 750 290 L 800 290" stroke="#d32f2f" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead-red)"/>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#d32f2f"/>
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <g id="legend" transform="translate(50, 420)">
+    <text x="0" y="0" font-size="16" font-weight="bold" fill="#333">핵심 포인트:</text>
+    <text x="0" y="25" font-size="13" fill="#555">• Event Loop 스레드가 모든 논블로킹 작업을 처리</text>
+    <text x="0" y="45" font-size="13" fill="#555">• Event Loop 스레드를 절대 블로킹하면 안됨!</text>
+    <text x="0" y="65" font-size="13" fill="#555">• 블로킹 작업은 별도의 스레드 풀 사용</text>
+    <text x="0" y="85" font-size="13" fill="#555">• Reactive Streams (Mono/Flux)가 시스템 전체를 연결</text>
+    <text x="0" y="105" font-size="13" fill="#555">• 백프레셔(Backpressure)가 자동으로 처리됨</text>
+  </g>
+  
+  <!-- Flow Description -->
+  <g id="flow-description" transform="translate(50, 660)">
+    <rect x="-10" y="-10" width="900" height="120" fill="#f5f5f5" stroke="#999" stroke-width="1" rx="5"/>
+    <text x="10" y="10" font-size="14" font-weight="bold" fill="#333">요청 처리 흐름:</text>
+    <text x="10" y="35" font-size="12" fill="#555">1. 클라이언트가 요청 전송 → Netty가 Event Loop 스레드에서 수신</text>
+    <text x="10" y="55" font-size="12" fill="#555">2. Event Loop가 WebFlux 핸들러로 전달 (동일한 스레드에서 계속 처리)</text>
+    <text x="10" y="75" font-size="12" fill="#555">3. 논블로킹 작업은 Event Loop 스레드에서 계속 실행</text>
+    <text x="10" y="95" font-size="12" fill="#555">4. 블로킹 작업은 subscribeOn()을 사용하여 명시적으로 Thread Pool로 전환</text>
+  </g>
+</svg>
