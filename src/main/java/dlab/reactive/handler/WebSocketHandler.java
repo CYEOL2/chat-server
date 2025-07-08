@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Sinks;
 
 import java.time.LocalDateTime;
 
@@ -98,7 +99,10 @@ public class WebSocketHandler implements org.springframework.web.reactive.socket
                                                                 .message(nickName + "님이 메시지를 보냈습니다.")
                                                                 .createDtime(LocalDateTime.now())
                                                                 .build();
-                                                        sinkManager.getSinks(chatRoomGuest.getNickName()).tryEmitNext(notification);
+                                                        Sinks.Many<Notification> sink = sinkManager.getSinks(chatRoomGuest.getNickName());
+                                                        if(sink !=null){
+                                                            sink.tryEmitNext(notification);
+                                                        }
                                                     }
                                                     return Mono.empty();
                                                 });

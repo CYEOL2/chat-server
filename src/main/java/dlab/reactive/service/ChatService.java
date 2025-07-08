@@ -104,8 +104,12 @@ public class ChatService {
     public Flux<ChatRoomGuest> getChatRoomGuestByChatRoomId(long chatRoomId) {
         return chatRoomGuestRepository.findByChatRoomId(chatRoomId);
     }
-    // 유저별 채팅방 조회
+    // 유저별 채팅방게스트 조회
     public Flux<ChatRoomGuest> getChatRoomGuestByNickName(String nickName) {
         return chatRoomGuestRepository.findByNickName(nickName);
+    }
+    // 유저별 채팅방 조회
+    public Flux<ChatRoom> getChatRoomsByNickName(String nickName) {
+        return chatRoomGuestRepository.findJoinedChatRoomsByNickName(nickName);
     }
 }

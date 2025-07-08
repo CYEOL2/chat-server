@@ -88,4 +88,12 @@ public class ChatHandler {
                 .flatMap(chatRoomGuests -> ServerResponse.ok().bodyValue(chatRoomGuests));
     }
 
+    // 사용자가 속한 채팅방 조회
+    public Mono<ServerResponse> getChatRoomsByNickName(ServerRequest request) {
+        String nickName = request.pathVariable("nickName");
+        return service.getChatRoomsByNickName(nickName)
+                .collectList()
+                .flatMap(chatRooms -> ServerResponse.ok().bodyValue(chatRooms));
+    }
+
 }

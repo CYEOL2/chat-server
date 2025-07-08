@@ -13,7 +13,7 @@ public interface ChatMessageRepository extends ReactiveCrudRepository<ChatMessag
 
     Mono<Void> deleteByChatRoomId(long chatRoomId);
 
-    @Query("SELECT * FROM chat_message WHERE chat_room_id = :chatRoomId ORDER BY send_dtime DESC LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM chat_message WHERE chat_room_id = :chatRoomId ORDER BY send_dtime ASC LIMIT :limit OFFSET :offset")
     Flux<ChatMessage> findByChatRoomId(long chatRoomId, long limit, long offset);
 
 }

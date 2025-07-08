@@ -17,7 +17,7 @@ public class NotificationService {
 
     // 유저별 sink
     public Flux<Notification> getNotificationStream(String nickName){
-        return sinkManager.getSinks(nickName).asFlux();
+        return sinkManager.createSinks(nickName).asFlux();
     }
 
     // 채팅방 별 sink를 하나의 flux로 merge

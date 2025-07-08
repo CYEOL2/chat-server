@@ -126,6 +126,20 @@ public class RouterConfig {
                             }
                     )
             ),
+            @RouterOperation(
+                    path = "/chat-room/user/{nickName}",
+                    produces = { MediaType.APPLICATION_JSON_VALUE },
+                    method = RequestMethod.GET,
+                    beanClass = ChatHandler.class,
+                    beanMethod = "getChatRoomsByNickName",
+                    operation = @Operation(
+                            operationId = "getChatRoomsByNickName",
+                            summary = "사용자가 속한 채팅방 조회 (nickName)",
+                            responses = {
+                                    @ApiResponse(responseCode = "200", description = "성공")
+                            }
+                    )
+            ),
             // 여기에 다른 엔드포인트도 동일한 방식으로 추가
     })
     public RouterFunction<ServerResponse> chatRoutes(ChatHandler chatHandler){
@@ -138,8 +152,8 @@ public class RouterConfig {
                 .andRoute(RequestPredicates.DELETE("/chat-room/{id}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  chatHandler::deleteChatRoomById)
                 .andRoute(RequestPredicates.DELETE("/chat-room-guest/{id}/{nickName}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  chatHandler::deleteChatRoomGuestById)
                 .andRoute(RequestPredicates.GET("/chat-message/{chatRoomId}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  chatHandler::getChatMessageByChatRoomId)
-                .andRoute(RequestPredicates.GET("/chat-guest/{chatRoomId}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  chatHandler::getChatRoomGuestByChatRoomId)
-                ;
+                .andRoute(RequestPredicates.GET("/chat-room-guest/{chatRoomId}"), chatHandler::getChatRoomGuestByChatRoomId)
+                .andRoute(RequestPredicates.GET("/chat-room/user/{nickName}"), chatHandler::getChatRoomsByNickName);
     }
 
     @Bean
