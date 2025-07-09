@@ -11,6 +11,12 @@ const disconnectBtn = getElement('disconnect-btn');
 const messagesDiv = getElement('messages');
 
 export function displayMessage(message) {
+    // JOIN/LEAVE 메시지는 시스템 메시지로 처리하거나 표시하지 않음
+    if (message.messageType === 'JOIN' || message.messageType === 'LEAVE') {
+        // 접속/퇴장 메시지는 채팅창에 표시하지 않고 상태만 업데이트
+        return;
+    }
+
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', message.senderNickname === appState.nickName ? 'sent' : 'received');
 

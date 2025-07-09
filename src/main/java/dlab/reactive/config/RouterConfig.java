@@ -113,7 +113,7 @@ public class RouterConfig {
                     )
             ),
             @RouterOperation(
-                    path = "/chat-guest/{chatRoomId}",
+                    path = "/chat-room-guest/{chatRoomId}",
                     produces = { MediaType.APPLICATION_JSON_VALUE },
                     method = RequestMethod.GET,
                     beanClass = ChatHandler.class,
@@ -140,8 +140,23 @@ public class RouterConfig {
                             }
                     )
             ),
+            @RouterOperation(
+                    path = "/session/{chatRoomId}",
+                    produces = { MediaType.APPLICATION_JSON_VALUE },
+                    method = RequestMethod.GET,
+                    beanClass = ChatHandler.class,
+                    beanMethod = "getSessionsByChatRoomId",
+                    operation = @Operation(
+                            operationId = "getSessionsByChatRoomId",
+                            summary = "채팅방에 접속중인 사용자 조회 (nickName)",
+                            responses = {
+                                    @ApiResponse(responseCode = "200", description = "성공")
+                            }
+                    )
+            ),
             // 여기에 다른 엔드포인트도 동일한 방식으로 추가
     })
+
     public RouterFunction<ServerResponse> chatRoutes(ChatHandler chatHandler){
         return RouterFunctions
                 .route(RequestPredicates.POST("/chat-room")
@@ -153,7 +168,8 @@ public class RouterConfig {
                 .andRoute(RequestPredicates.DELETE("/chat-room-guest/{id}/{nickName}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  chatHandler::deleteChatRoomGuestById)
                 .andRoute(RequestPredicates.GET("/chat-message/{chatRoomId}").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),  chatHandler::getChatMessageByChatRoomId)
                 .andRoute(RequestPredicates.GET("/chat-room-guest/{chatRoomId}"), chatHandler::getChatRoomGuestByChatRoomId)
-                .andRoute(RequestPredicates.GET("/chat-room/user/{nickName}"), chatHandler::getChatRoomsByNickName);
+                .andRoute(RequestPredicates.GET("/chat-room/user/{nickName}"), chatHandler::getChatRoomsByNickName)
+                .andRoute(RequestPredicates.GET("/session/{chatRoomId}"), chatHandler::getSessionsByChatRoomId);
     }
 
     @Bean

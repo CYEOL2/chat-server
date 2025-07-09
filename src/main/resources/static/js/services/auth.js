@@ -68,7 +68,7 @@ export function login(inputNickName) {
     appState.sseReconnectAttempts = 0;
 
     // UI 업데이트
-    setDisplay(loginSection.querySelector('.login-form'), 'none');
+    setDisplay(loginSection, 'none');
     setDisplay(userStatus, 'flex');
     setTextContent(userNick, appState.nickName);
     setTextContent(currentUser, `Logged in as: ${appState.nickName}`);
@@ -108,7 +108,7 @@ export function logout() {
     resetAppState();
 
     // UI 리셋
-    setDisplay(loginSection.querySelector('.login-form'), 'flex');
+    setDisplay(loginSection, 'flex');
     setDisplay(userStatus, 'none');
     setDisplay(mainContainer, 'none');
     setTextContent(userNick, '');

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
@@ -24,5 +25,11 @@ public class ChatMessage {
     private String content;
 
     private LocalDateTime sendDtime;
+
+    private MessageType messageType;
+
+    public enum MessageType {
+        JOIN, LEAVE, CHAT
+    }
 
 }

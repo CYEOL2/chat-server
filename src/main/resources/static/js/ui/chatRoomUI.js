@@ -101,7 +101,7 @@ export function renderRoomList(listElement, rooms, showLeaveButton = false) {
             const badge = document.createElement('span');
             badge.className = 'message-count-badge';
             badge.textContent = messageCount;
-            li.appendChild(badge);
+            roomNameSpan.appendChild(badge);
         }
 
         // All Rooms의 경우에만 전체 li 클릭 가능 (My Rooms는 roomNameSpan만 클릭 가능)
@@ -155,7 +155,10 @@ export function updateRoomListWithNewMessage(chatRoomId) {
             const badge = document.createElement('span');
             badge.className = 'message-count-badge';
             badge.textContent = appState.newMessageCounts[chatRoomId];
-            item.appendChild(badge);
+            const roomNameSpan = item.querySelector('.room-name');
+            if (roomNameSpan) {
+                roomNameSpan.appendChild(badge);
+            }
 
             updated = true;
             console.log(`Updated room item: ${item.textContent} (${appState.newMessageCounts[chatRoomId]} new messages)`);

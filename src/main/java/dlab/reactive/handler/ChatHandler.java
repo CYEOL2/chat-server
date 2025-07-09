@@ -12,6 +12,9 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 @Component
 public class ChatHandler {
 
@@ -96,4 +99,25 @@ public class ChatHandler {
                 .flatMap(chatRooms -> ServerResponse.ok().bodyValue(chatRooms));
     }
 
+    // 채팅방에 접속중인 사용자 조회
+    public Mono<ServerResponse> getSessionsByChatRoomId(ServerRequest request) {
+        String chatRoomId = request.pathVariable("chatRoomId");
+
+        return Mono.fromCallable(() -> sessionManager.getSessions(chatRoomId))
+                .map(sessionMap -> {
+                    if (sessionMap == null || sessionMap.isEmpty()) {
+                        return Collections.emptyList();
+                    }else{
+                        return new ArrayList<>(sessionMap.keySet());
+                    }
+                })
+                .flatMap(nickNames ->
+                        ServerResponse.ok()
+                                .bodyValue(nickNames)
+                )
+                .onErrorResume(e ->
+                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .bodyValue("Error retrieving sessions for chatRoom: " + chatRoomId)
+                );
+    }
 }

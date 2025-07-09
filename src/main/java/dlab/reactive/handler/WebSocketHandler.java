@@ -47,8 +47,19 @@ public class WebSocketHandler implements org.springframework.web.reactive.socket
         session.closeStatus()
                 .doOnTerminate(() -> {
                     System.out.println("chatRoomId : " + chatRoomId + ", nickName : " + nickName);
-                    System.out.println("removeSession");
-                    sessionManager.removeSession(chatRoomId, nickName);})
+
+                    sendMessage(chatRoomId, nickName, ChatMessage.builder()
+                            .chatRoomId(Long.parseLong(chatRoomId))
+                            .senderNickname(nickName)
+                            .content("leave")
+                            .messageType(ChatMessage.MessageType.LEAVE)
+                            .build())
+                            .doFinally(signalType -> {
+                                System.out.println("removeSession");
+                                sessionManager.removeSession(chatRoomId, nickName);
+                            })
+                            .subscribe();
+                    })
                 .subscribe();
 
         return chatService.existsById(Long.parseLong(chatRoomId))
@@ -62,6 +73,12 @@ public class WebSocketHandler implements org.springframework.web.reactive.socket
 
                     //thenMany 사용이유 session.receive가 flux를 반환하기 때문.
                     return chatService.joinGuest(chatRoomId, nickName)
+                            .thenMany(sendMessage(chatRoomId, nickName, ChatMessage.builder()
+                                    .chatRoomId(Long.parseLong(chatRoomId))
+                                    .senderNickname(nickName)
+                                    .content("join")
+                                    .messageType(ChatMessage.MessageType.JOIN)
+                                    .build()))
                             .thenMany(session.receive()
                                     .flatMap(webSocketMessage -> {
                                         String payload = webSocketMessage.getPayloadAsText();
@@ -72,24 +89,14 @@ public class WebSocketHandler implements org.springframework.web.reactive.socket
                                             //json 변환
                                             chatMessage = objectMapper.readValue(payload, ChatMessage.class);
                                             chatMessage.setSendDtime(LocalDateTime.now());
+                                            chatMessage.setMessageType(ChatMessage.MessageType.CHAT);
                                         } catch (JsonProcessingException e) {
                                             throw new RuntimeException(e);
                                         }
                                         System.out.println("세션 수: " + sessionManager.getSessions(chatRoomId).size());
                                         //DB에 insert
                                         return chatService.saveChatMessage(chatMessage)
-                                                .thenMany(Flux.fromIterable(sessionManager.getSessions(chatRoomId).values()))
-                                                .flatMap(targetSession -> {
-                                                    if (targetSession.isOpen()) {
-                                                        try {
-                                                            return targetSession.send(Mono.just(targetSession.textMessage(objectMapper.writeValueAsString(chatMessage))));
-                                                        } catch (JsonProcessingException e) {
-                                                            throw new RuntimeException(e);
-                                                        }
-                                                    } else {
-                                                        return Mono.empty();
-                                                    }
-                                                })
+                                                .thenMany(sendMessage(chatRoomId, nickName, chatMessage))
                                                 .thenMany(chatService.getChatRoomGuestByChatRoomId(Long.parseLong(chatRoomId)))
                                                 .flatMap(chatRoomGuest -> {
                                                     if(!nickName.equals(chatRoomGuest.getNickName()) && !sessionManager.getSessions(chatRoomId).containsKey(chatRoomGuest.getNickName())){
@@ -115,4 +122,20 @@ public class WebSocketHandler implements org.springframework.web.reactive.socket
         UriComponents components = UriComponentsBuilder.fromUri(session.getHandshakeInfo().getUri()).build();
         return components.getQueryParams().getFirst(key);
     }
+
+    private Flux<Void> sendMessage(String chatRoomId, String nickName, ChatMessage chatMessage) {
+        return Flux.fromIterable(sessionManager.getSessions(chatRoomId).values())
+                .flatMap(targetSession -> {
+                    if (targetSession.isOpen()) {
+                        try {
+                            return targetSession.send(Mono.just(targetSession.textMessage(objectMapper.writeValueAsString(chatMessage))));
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        return Mono.empty();
+                    }
+            });
+    }
+
 }

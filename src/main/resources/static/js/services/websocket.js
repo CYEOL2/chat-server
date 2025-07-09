@@ -5,6 +5,7 @@ import { showNotification } from '../utils/notification.js';
 import { displayMessage, updateChatUIToConnected, resetChatUI } from '../ui/chatUI.js';
 import { loadChatHistory, leaveRoom, fetchMyRooms, fetchAllRooms } from './api.js';
 import { renderRoomList } from '../ui/chatRoomUI.js';
+import { renderChatGuests, clearChatGuests, handleUserStatusUpdate } from '../ui/chatGuestUI.js';
 
 // 연결 상태 추적을 위한 플래그
 let isConnecting = false;
@@ -47,6 +48,9 @@ function createNewConnection(roomId, roomName) {
     appState.websocket.onmessage = (event) => {
         const message = JSON.parse(event.data);
         displayMessage(message);
+        
+        // JOIN/LEAVE 메시지 처리로 온라인 상태 실시간 업데이트
+        handleUserStatusUpdate(message);
     };
 
     appState.websocket.onclose = (event) => {
@@ -99,6 +103,7 @@ export function connectWebSocket(roomId, roomName) {
     
     // UI를 먼저 업데이트 (알림 없이)
     updateChatUIToConnected(roomName);
+    renderChatGuests(roomId); // 채팅방 인원 목록 렌더링 추가
 
     // 기존 연결 정리
     if (appState.websocket) {
@@ -145,6 +150,7 @@ export function disconnectWebSocket() {
     }
     
     isConnecting = false; // 플래그 리셋
+    clearChatGuests(); // 채팅방 인원 목록 초기화 추가
     resetChatUI();
     showNotification('Info', 'Left the chat room.', 'info', 3000);
 }

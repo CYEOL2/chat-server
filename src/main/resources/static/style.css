@@ -68,6 +68,10 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
 }
 
 .user-status span {
@@ -305,6 +309,8 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-right: 10px;
+    display: flex;
+    align-items: center;
 }
 
 /* Leave Room Button */
@@ -368,9 +374,7 @@ h1 {
 
 /* 메시지 카운트 배지 */
 .message-count-badge {
-    position: absolute;
-    top: 8px;
-    right: 10px;
+    margin-left: 8px; /* 채팅방 이름과의 간격 */
     background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
     color: white;
     border-radius: 12px;
@@ -381,7 +385,6 @@ h1 {
     text-align: center;
     box-shadow: 0 2px 6px rgba(255, 107, 107, 0.3);
     animation: bounce 0.5s ease;
-    z-index: 1;
 }
 
 /* 애니메이션 */
@@ -404,9 +407,9 @@ h1 {
 }
 
 /* My Rooms에서 나가기 버튼이 있는 방의 배지 위치 조정 */
-#my-room-list li .message-count-badge {
-    right: 80px; /* 나가기 버튼을 위한 공간 확보 */
-}
+/* #my-room-list li .message-count-badge {
+    left: 5px; 
+} */
 
 #create-room-input {
     display: flex;
@@ -438,7 +441,7 @@ h1 {
 
 /* Chat Container */
 #chat-container {
-    flex: 3;
+    flex: 4;
     display: flex;
     flex-direction: column;
 }
@@ -455,6 +458,7 @@ h1 {
 #chat-header h2 {
     margin: 0;
     color: #333;
+    font-size: 20px; /* 크기 조정 */
 }
 
 #user-info {
@@ -500,7 +504,7 @@ h1 {
 .message-placeholder {
     margin: auto;
     color: #6c757d;
-    font-size: 18px;
+    font-size: 16px; /* 크기 조정 */
 }
 
 .message {
@@ -568,4 +572,172 @@ h1 {
 #send-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+/* Chat Guest List Container */
+#chat-guest-list-container {
+    flex: 1;
+    border-left: 1px solid #dcdcdc;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    min-height: 0;
+    overflow: hidden;
+}
+
+#chat-guest-list-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 18px;
+    text-align: center;
+}
+
+#chat-guest-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+#chat-guest-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    color: #555;
+    font-size: 14px;
+}
+
+#chat-guest-list li:last-child {
+    border-bottom: none;
+}
+
+.status-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+}
+
+.status-circle.online {
+    background-color: #28a745; /* 초록색 */
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
+    animation: onlinePulse 2s infinite;
+}
+
+.status-circle.offline {
+    background-color: #6c757d; /* 회색 */
+    box-shadow: none;
+}
+
+/* 온라인 상태 펄스 애니메이션 */
+@keyframes onlinePulse {
+    0%, 100% { 
+        box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 12px rgba(40, 167, 69, 0.8);
+        transform: scale(1.1);
+    }
+}
+
+/* 사용자 입장 애니메이션 */
+.user-join-animation {
+    animation: userJoin 1s ease-out;
+}
+
+@keyframes userJoin {
+    0% {
+        transform: translateX(-20px);
+        opacity: 0;
+        background-color: #d4edda;
+    }
+    50% {
+        transform: translateX(5px);
+        background-color: #d4edda;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+        background-color: transparent;
+    }
+}
+
+/* 사용자 퇴장 애니메이션 */
+.user-leave-animation {
+    animation: userLeave 1s ease-out;
+}
+
+@keyframes userLeave {
+    0% {
+        opacity: 1;
+        background-color: #f8d7da;
+    }
+    50% {
+        opacity: 0.5;
+        background-color: #f8d7da;
+        transform: translateX(10px);
+    }
+    100% {
+        opacity: 1;
+        background-color: transparent;
+        transform: translateX(0);
+    }
+}
+
+/* 상태 알림 애니메이션 */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* 게스트 목록 아이템 개선 */
+#chat-guest-list li {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    color: #555;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+
+#chat-guest-list li:last-child {
+    border-bottom: none;
+}
+
+#chat-guest-list li:hover {
+    background-color: #e9ecef;
+    transform: translateX(2px);
+}
+
+.nickname {
+    font-weight: 500;
+    color: #333;
 }

@@ -3,8 +3,11 @@
 import { getElement, setInputValue, getInputValue, querySelectorAll, querySelector } from './utils/dom.js';
 import { login, logout } from './services/auth.js';
 import { disconnectWebSocket, sendChatMessage, leaveCurrentRoom } from './services/websocket.js';
-import { createRoom, fetchAllRooms, fetchMyRooms } from './services/api.js';
-import { renderRoomList } from './ui/chatRoomUI.js';
+import { fetchMyRooms, fetchAllRooms, createRoom, fetchChatRoomGuests } from './services/api.js';
+import { renderRoomList, setActiveRoom, updateRoomListWithNewMessage, clearNewMessageIndicators } from './ui/chatRoomUI.js';
+import { displayMessage, resetChatUI } from './ui/chatUI.js';
+import { showNotification } from './utils/notification.js';
+import { renderChatGuests, clearChatGuests } from './ui/chatGuestUI.js';
 import { appState } from './state/appState.js';
 import { disconnectSSE } from './services/sse.js';
 

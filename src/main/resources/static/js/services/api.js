@@ -80,3 +80,29 @@ export async function loadChatHistory(roomId) {
         return [];
     }
 }
+
+export async function fetchChatRoomGuests(chatRoomId) {
+    try {
+        const response = await fetch(`/chat-room-guest/${chatRoomId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching chat room guests:', error);
+        throw error;
+    }
+}
+
+export async function fetchOnlineUsers(chatRoomId) {
+    try {
+        const response = await fetch(`/session/${chatRoomId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching online users:', error);
+        return []; // 오류 발생 시 빈 배열 반환
+    }
+}

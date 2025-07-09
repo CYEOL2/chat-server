@@ -2,16 +2,16 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>D-Lab Super Chat</title>
+    <title>DLAB CHAT</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div class="app-container">
-    <h1>D-Lab Super Chat</h1>
+    <h1>DLAB CHAT</h1>
     
     <!-- 로그인/로그아웃 영역 -->
     <div id="login-section" class="login-section">
-        <div class="login-form">
+        <div id="login-form" class="login-form">
             <input type="text" id="nick-name" placeholder="Enter your Nickname">
             <button id="login-btn">Login</button>
         </div>
@@ -27,16 +27,16 @@
     <div class="main-container" id="main-container" style="display: none;">
         <div id="room-list-container">
             <div class="room-tabs">
-                <button class="tab-btn active" data-tab="all-rooms">All Rooms</button>
-                <button class="tab-btn" data-tab="my-rooms">My Rooms</button>
+                <button class="tab-btn" data-tab="all-rooms">전체 채팅방</button>
+                <button class="tab-btn active" data-tab="my-rooms">나의 채팅방</button>
             </div>
             <div id="room-search-input">
                 <input type="text" id="room-search" placeholder="Search rooms...">
             </div>
-            <div id="all-rooms" class="room-tab-content active">
+            <div id="all-rooms" class="room-tab-content">
                 <ul id="all-room-list"></ul>
             </div>
-            <div id="my-rooms" class="room-tab-content">
+            <div id="my-rooms" class="room-tab-content active">
                 <ul id="my-room-list"></ul>
             </div>
             <div id="create-room-input">
@@ -46,19 +46,25 @@
         </div>
         <div id="chat-container">
             <div id="chat-header">
-                <h2 id="chat-room-name">Select a room to start</h2>
+                <h2 id="chat-room-name">채팅방을 클릭하여 채팅을 시작하세요</h2>
                 <div id="user-info">
                     <span id="current-user"></span>
-                    <button id="disconnect-btn" disabled>Leave Room</button>
+                    <button id="disconnect-btn" disabled>방 나가기</button>
                 </div>
             </div>
             <div id="messages">
-                <div class="message-placeholder">Please select a room to start chatting.</div>
+                <div class="message-placeholder">채팅방을 클릭하여 채팅을 시작하세요.</div>
             </div>
             <div id="chat-input">
                 <input type="text" id="message-input" placeholder="Enter your message..." disabled>
                 <button id="send-btn" disabled>Send</button>
             </div>
+        </div>
+        <div id="chat-guest-list-container">
+            <h3>채팅 참가자</h3>
+            <ul id="chat-guest-list">
+                <!-- 참여자 목록이 여기에 동적으로 로드됩니다 -->
+            </ul>
         </div>
     </div>
 </div>
